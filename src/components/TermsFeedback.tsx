@@ -22,6 +22,7 @@ export function TermsFeedback() {
   const [hovered, setHovered] = useState<number | null>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDone(!!localStorage.getItem(K_DONE));
     setReady(true);
   }, []);

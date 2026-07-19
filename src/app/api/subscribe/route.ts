@@ -13,7 +13,8 @@ export async function POST(req: NextRequest) {
     
     const data = await res.json();
     return NextResponse.json(data, { status: res.status });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Failed to forward subscription" }, { status: 500 });
+  } catch (err: unknown) {
+    const errMsg = err instanceof Error ? err.message : "Failed to forward subscription";
+    return NextResponse.json({ error: errMsg }, { status: 500 });
   }
 }

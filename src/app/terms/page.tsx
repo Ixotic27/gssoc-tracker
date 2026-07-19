@@ -145,7 +145,7 @@ export default function TermsPage() {
             <strong>We now filter to the 421 officially registered GSSoC 2026 projects.</strong> Your score here reflects only PRs in repos on that list — the same set the official leaderboard uses.
           </Note>
           <P>
-            We fetch the project list directly from <Bright>gssoc.girlscript.org/api/projects</Bright> and check every PR against it. If a repo is not on the list, we still show the PR in your tracker list so you aren't confused about where it went, but we explicitly mark it as <strong>Disqualified (0 points)</strong> so it does not falsely inflate your score.
+            We fetch the project list directly from <Bright>gssoc.girlscript.org/api/projects</Bright> and check every PR against it. If a repo is not on the list, we still show the PR in your tracker list so you aren&apos;t confused about where it went, but we explicitly mark it as <strong>Disqualified (0 points)</strong> so it does not falsely inflate your score.
           </P>
           <P>
             The <Hi>PR Validator</Hi> at <Bright>/pr-check</Bright> lets you paste any PR link and see exactly which category it falls into — valid, unofficial, not approved, and so on. It also shows the full points breakdown for that specific PR.
@@ -169,9 +169,9 @@ export default function TermsPage() {
 
           <P><Bright>Analytics & Crash Tracking:</Bright> We use Google Analytics, Vercel Analytics, and PostHog to track page views, monitor app stability, and understand how the site is used. Our site is also monitored via Google Search Console. To help us fix UI bugs and crashes quickly, PostHog safely records anonymous video replays of your sessions. These recordings only capture how you interact with the UI so we can see exactly what broke. No personally identifiable information or private repository data is tracked or recorded.</P>
 
-          <P><Bright>Email alerts (optional):</Bright> If you subscribe to PR alerts, your GitHub username and email address are saved in a file inside this project's GitHub repository. That is literally where the data lives, a plain file in the repo, nothing fancier. It is only used to send you alerts and nothing else. You can remove yourself any time using the unsubscribe link in any alert email, and your entry gets deleted from that file immediately. We do not share it with anyone.</P>
+          <P><Bright>Email alerts (optional):</Bright> If you subscribe to PR alerts, your GitHub username and email address are saved in a file inside this project&apos;s GitHub repository. That is literally where the data lives, a plain file in the repo, nothing fancier. It is only used to send you alerts and nothing else. You can remove yourself any time using the unsubscribe link in any alert email, and your entry gets deleted from that file immediately. We do not share it with anyone.</P>
 
-          <P><Bright>Feedback (optional):</Bright> If you submit a rating or comment through the feedback widget, your response is submitted anonymously to a Google Form. No name, email, or identifying information is collected. A flag is saved in your browser's local storage so the prompt does not appear again on the same device, this data never leaves your browser.</P>
+          <P><Bright>Feedback (optional):</Bright> If you submit a rating or comment through the feedback widget, your response is submitted anonymously to a Google Form. No name, email, or identifying information is collected. A flag is saved in your browser&apos;s local storage so the prompt does not appear again on the same device, this data never leaves your browser.</P>
 
           <P>Questions about privacy? Email{" "}
             <a href="mailto:ishant.off@gmail.com" style={{ color: ds.primary, textDecoration: "underline" }}>ishant.off@gmail.com</a>.

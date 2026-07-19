@@ -204,8 +204,8 @@ async function fetchRepoPRs(owner: string, repo: string): Promise<RawPRWithUser[
     let deltaPRs: RawPRWithUser[] = [];
     try {
       deltaPRs = await fetchAllFromGitHub(q);
-    } catch (err: any) {
-      console.warn(`[project-admin-tracker] Delta sync failed for ${repoKey}, falling back to DB:`, err.message);
+    } catch (err: unknown) {
+      console.warn(`[project-admin-tracker] Delta sync failed for ${repoKey}, falling back to DB:`, err instanceof Error ? err.message : "Unknown error");
     }
 
     if (deltaPRs.length > 0) {
@@ -224,7 +224,7 @@ async function fetchRepoPRs(owner: string, repo: string): Promise<RawPRWithUser[
   }
 
   // Read all cached PRs from Supabase
-  let dbPRs: any[] = [];
+  const dbPRs: { raw_data: unknown }[] = [];
   let page = 0;
   const pageSize = 1000;
   let hasMore = true;
@@ -241,15 +241,17 @@ async function fetchRepoPRs(owner: string, repo: string): Promise<RawPRWithUser[
       return fetchAllFromGitHub(baseQ);
     }
 
-    dbPRs.push(...data);
-    if (data.length < pageSize) {
+    if (data) {
+      dbPRs.push(...(data as { raw_data: unknown }[]));
+    }
+    if (!data || data.length < pageSize) {
       hasMore = false;
     } else {
       page++;
     }
   }
 
-  return dbPRs.map((row: any) => row.raw_data as RawPRWithUser);
+  return dbPRs.map((row) => row.raw_data as RawPRWithUser);
 }
 
 /* ── Point calculation ──────────────────────────────────────── */

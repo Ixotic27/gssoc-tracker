@@ -16,7 +16,7 @@ export function AdminScoringGuide() {
         </h4>
       </div>
       <p style={{ margin: "0 0 16px", fontSize: 13, color: ds.inkMute, lineHeight: 1.5 }}>
-        A Project Admin's score is calculated as the sum of all contributor points earned from merged, approved PRs in their project repository.
+        A Project Admin&apos;s score is calculated as the sum of all contributor points earned from merged, approved PRs in their project repository.
       </p>
 
       <div>

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, Clock, AlertTriangle, Info, RefreshCw, FolderGit2, GitMerge, Tag, Trophy, BookOpen, ExternalLink, Users, Star } from "lucide-react";
+import { ArrowLeft, Clock, AlertTriangle, Info, RefreshCw, FolderGit2, GitMerge, Trophy, BookOpen, ExternalLink, Users, Star } from "lucide-react";
 import { ds, fontMono, ROLE_STYLE } from "@/lib/ds";
 import { fetchGitHubUser } from "@/lib/github";
 import { GSSOC_REPO_SET } from "@/data/gssoc-repos";

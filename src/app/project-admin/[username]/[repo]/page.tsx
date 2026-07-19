@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, FolderGit2, Clock, AlertTriangle, Star, RefreshCw, GitFork, ExternalLink, Trophy, GitMerge, Tag, Info, Users } from "lucide-react";
+import { ArrowLeft, FolderGit2, Clock, AlertTriangle, Star, RefreshCw, GitFork, ExternalLink, Trophy, GitMerge, Users } from "lucide-react";
 import { ds, fontMono } from "@/lib/ds";
 import { buildProjectAdminData } from "@/lib/project-admin-tracker";
 import { ProjectPRTable } from "@/components/project-admin/ProjectPRTable";
