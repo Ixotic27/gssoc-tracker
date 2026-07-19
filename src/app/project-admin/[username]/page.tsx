@@ -181,8 +181,8 @@ export default async function ProjectAdminDashboard({ params }: Props) {
               Track your GSSoC 2026 points from submitted PRs on your contributor dashboard.
             </p>
           </div>
-          <Link 
-            href={`/pr-tracker/${encodeURIComponent(decoded)}`}
+          <a 
+            href={`https://gssoc-tracker.vercel.app/pr-tracker/${encodeURIComponent(decoded)}`}
             style={{
               padding: "6px 14px",
               borderRadius: ds.rSm,
@@ -196,7 +196,7 @@ export default async function ProjectAdminDashboard({ params }: Props) {
             }}
           >
             Contributor Dashboard →
-          </Link>
+          </a>
         </div>
 
         {/* Disclaimer Banner */}
