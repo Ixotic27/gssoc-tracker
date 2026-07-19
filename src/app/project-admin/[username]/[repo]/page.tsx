@@ -6,6 +6,7 @@ import { ds, fontMono } from "@/lib/ds";
 import { buildProjectAdminData } from "@/lib/project-admin-tracker";
 import { ProjectPRTable } from "@/components/project-admin/ProjectPRTable";
 import { AdminScoringGuide } from "@/components/project-admin/AdminScoringGuide";
+import { SubscribeButton } from "@/components/SubscribeModal";
 
 export const dynamic = "force-dynamic";
 
@@ -189,7 +190,86 @@ export default async function ProjectAdminPage({ params }: Props) {
           <AdminScoringGuide />
         </div>
 
-        <p style={{ textAlign: "center", fontSize: 12, color: ds.inkFaint, lineHeight: 1.7 }}>
+        {/* Footer row of buttons */}
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          flexWrap: "wrap",
+          justifyContent: "center",
+          marginTop: 64,
+          marginBottom: 12,
+          paddingTop: 24,
+          borderTop: `1px solid ${ds.hairlineCool}`,
+        }}>
+          {/* Built by PRODHOSH */}
+          <a
+            href="https://github.com/PRODHOSH"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              textDecoration: "none",
+              padding: "6px 12px",
+              borderRadius: ds.rFull,
+              border: `1px solid ${ds.hairlineCool}`,
+              background: ds.canvasSoft,
+            }}
+          >
+            <Image
+              src="https://avatars.githubusercontent.com/PRODHOSH"
+              alt="PRODHOSH"
+              width={22}
+              height={22}
+              unoptimized
+              style={{ borderRadius: "50%", display: "block" }}
+            />
+            <span style={{ fontSize: 12, color: ds.inkMute }}>
+              Built by <span style={{ color: ds.ink, fontWeight: 600 }}>@PRODHOSH</span>
+            </span>
+          </a>
+
+          {/* Star on GitHub */}
+          <a
+            href="https://github.com/PRODHOSH/gssoc-tracker"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              textDecoration: "none",
+              padding: "6px 14px",
+              borderRadius: ds.rFull,
+              border: `1px solid ${ds.hairlineCool}`,
+              background: ds.canvasSoft,
+              fontSize: 12,
+              fontWeight: 500,
+              color: ds.inkMute,
+              transition: "all 0.15s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "rgba(202,138,4,0.5)";
+              e.currentTarget.style.color = "#ca8a04";
+              e.currentTarget.style.background = "rgba(202,138,4,0.06)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = ds.hairlineCool;
+              e.currentTarget.style.color = ds.inkMute;
+              e.currentTarget.style.background = ds.canvasSoft;
+            }}
+          >
+            <Star size={13} /> Star on GitHub
+          </a>
+
+          {/* Get alerts */}
+          <SubscribeButton />
+        </div>
+
+        {/* Footer text */}
+        <p style={{ textAlign: "center", fontSize: 12, color: ds.inkFaint, lineHeight: 1.7, margin: 0 }}>
           Not affiliated with GirlScript Summer of Code or GirlScript Foundation ·{" "}
           <a href="/terms" style={{ color: ds.inkMute2, textDecoration: "underline" }}>Terms &amp; Privacy</a>
         </p>
