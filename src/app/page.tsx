@@ -201,13 +201,13 @@ export default function Home() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
           <a
-            href="https://github.com/PRODHOSH"
+            href="https://github.com/Ixotic27"
             target="_blank" rel="noopener noreferrer"
             style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none", padding: "6px 12px", borderRadius: ds.rFull, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)" }}
           >
-            <Image src="https://avatars.githubusercontent.com/PRODHOSH" alt="PRODHOSH" width={22} height={22} unoptimized style={{ borderRadius: "50%", display: "block" }} />
+            <Image src="https://avatars.githubusercontent.com/Ixotic27" alt="Ixotic27" width={22} height={22} unoptimized style={{ borderRadius: "50%", display: "block" }} />
             <span style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>
-              Built by <span style={{ color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>@PRODHOSH</span>
+              Built by <span style={{ color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>@Ixotic27</span>
             </span>
           </a>
 

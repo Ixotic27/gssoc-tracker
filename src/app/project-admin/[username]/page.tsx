@@ -371,9 +371,9 @@ export default async function ProjectAdminDashboard({ params }: Props) {
           paddingTop: 24,
           borderTop: `1px solid ${ds.hairlineCool}`,
         }}>
-          {/* Built by PRODHOSH */}
+          {/* Built by Ixotic27 */}
           <a
-            href="https://github.com/PRODHOSH"
+            href="https://github.com/Ixotic27"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -388,21 +388,21 @@ export default async function ProjectAdminDashboard({ params }: Props) {
             }}
           >
             <Image
-              src="https://avatars.githubusercontent.com/PRODHOSH"
-              alt="PRODHOSH"
+              src="https://avatars.githubusercontent.com/Ixotic27"
+              alt="Ixotic27"
               width={22}
               height={22}
               unoptimized
               style={{ borderRadius: "50%", display: "block" }}
             />
             <span style={{ fontSize: 12, color: ds.inkMute }}>
-              Built by <span style={{ color: ds.ink, fontWeight: 600 }}>@PRODHOSH</span>
+              Built by <span style={{ color: ds.ink, fontWeight: 600 }}>@Ixotic27</span>
             </span>
           </a>
 
           {/* Star on GitHub */}
           <a
-            href="https://github.com/PRODHOSH/gssoc-tracker"
+            href="https://github.com/Ixotic27/gssoc-tracker"
             target="_blank"
             rel="noopener noreferrer"
             style={{
