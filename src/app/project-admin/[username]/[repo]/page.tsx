@@ -236,6 +236,7 @@ export default async function ProjectAdminPage({ params }: Props) {
             href="https://github.com/Ixotic27/gssoc-tracker"
             target="_blank"
             rel="noopener noreferrer"
+            className="star-button"
             style={{
               display: "flex",
               alignItems: "center",
@@ -250,16 +251,6 @@ export default async function ProjectAdminPage({ params }: Props) {
               color: ds.inkMute,
               transition: "all 0.15s",
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "rgba(202,138,4,0.5)";
-              e.currentTarget.style.color = "#ca8a04";
-              e.currentTarget.style.background = "rgba(202,138,4,0.06)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = ds.hairlineCool;
-              e.currentTarget.style.color = ds.inkMute;
-              e.currentTarget.style.background = ds.canvasSoft;
-            }}
           >
             <Star size={13} /> Star on GitHub
           </a>
@@ -273,6 +264,13 @@ export default async function ProjectAdminPage({ params }: Props) {
           Not affiliated with GirlScript Summer of Code or GirlScript Foundation ·{" "}
           <a href="/terms" style={{ color: ds.inkMute2, textDecoration: "underline" }}>Terms &amp; Privacy</a>
         </p>
+        <style>{`
+          .star-button:hover {
+            border-color: rgba(202,138,4,0.5) !important;
+            color: #ca8a04 !important;
+            background: rgba(202,138,4,0.06) !important;
+          }
+        `}</style>
       </div>
     </div>
   );
