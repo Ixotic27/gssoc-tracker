@@ -7,6 +7,7 @@ import { buildProjectAdminData } from "@/lib/project-admin-tracker";
 import { ProjectPRTable } from "@/components/project-admin/ProjectPRTable";
 import { AdminScoringGuide } from "@/components/project-admin/AdminScoringGuide";
 import { SubscribeButton } from "@/components/SubscribeModal";
+import { GSSOC_REPO_SET } from "@/data/gssoc-repos";
 
 export const dynamic = "force-dynamic";
 
@@ -93,6 +94,23 @@ export default async function ProjectAdminPage({ params }: Props) {
 
       {/* ── Page body ── */}
       <div style={{ maxWidth: 980, margin: "0 auto", padding: "28px 20px 64px" }}>
+        {!GSSOC_REPO_SET.has(`${owner}/${repo}`.toLowerCase()) && (
+          <div style={{
+            background: "rgba(245,158,11,0.06)",
+            border: "1px solid rgba(245,158,11,0.3)",
+            borderRadius: ds.rLg,
+            padding: "12px 18px",
+            marginBottom: 16,
+            display: "flex",
+            alignItems: "flex-start",
+            gap: 10,
+          }}>
+            <AlertTriangle size={15} color="#d97706" style={{ flexShrink: 0, marginTop: 2 }} />
+            <div style={{ fontSize: 13, color: "#92400e", lineHeight: 1.6 }}>
+              <strong>Unofficial Repository:</strong> The repository <strong>{owner}/{repo}</strong> is not listed on the official GirlScript Summer of Code 2026 project registry. Points and stats shown below are estimates only and do not contribute to official standing.
+            </div>
+          </div>
+        )}
 
         {/* Repo card */}
         <div style={{ background: ds.canvas, border: `1px solid ${ds.hairlineCool}`, borderRadius: ds.rXl, overflow: "hidden", boxShadow: "0 2px 12px rgba(23,23,23,0.07)", marginBottom: 16 }}>
