@@ -2,7 +2,14 @@ import Image from "next/image";
 import { MapPin, Building2, Users, BookOpen, ExternalLink } from "lucide-react";
 import { ds, fontMono } from "@/lib/ds";
 import { GitHubIcon } from "@/components/icons";
-import type { GitHubUser, PRRank } from "@/types/pr-tracker";
+import type { GitHubUser } from "@/lib/github";
+
+type PRRank =
+  | "Beginner Contributor"
+  | "Active Contributor"
+  | "Advanced Contributor"
+  | "Elite Contributor"
+  | "GSSoC Legend";
 
 const RANK_META: Record<PRRank, {
   label: string; emoji: string;

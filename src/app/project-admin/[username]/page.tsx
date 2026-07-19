@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Clock, AlertTriangle, Info, RefreshCw, FolderGit2, GitMerge, Tag, Trophy, BookOpen, ExternalLink } from "lucide-react";
 import { ds, fontMono, ROLE_STYLE } from "@/lib/ds";
-import { fetchGitHubUser } from "@/lib/pr-tracker";
+import { fetchGitHubUser } from "@/lib/github";
 import { GSSOC_REPO_SET } from "@/data/gssoc-repos";
 import { buildAdminScore } from "@/lib/admin-scoring";
 import { GitHubProfileCard } from "@/components/pr-tracker/GitHubProfileCard";
