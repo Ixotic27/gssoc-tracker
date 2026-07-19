@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Clock, AlertTriangle, Info, RefreshCw, FolderGit2, GitMerge, Tag, Trophy, BookOpen, ExternalLink } from "lucide-react";
+import { ArrowLeft, Clock, AlertTriangle, Info, RefreshCw, FolderGit2, GitMerge, Tag, Trophy, BookOpen, ExternalLink, Users } from "lucide-react";
 import { ds, fontMono, ROLE_STYLE } from "@/lib/ds";
 import { fetchGitHubUser } from "@/lib/github";
 import { GSSOC_REPO_SET } from "@/data/gssoc-repos";
-import { buildAdminScore } from "@/lib/admin-scoring";
+import { buildProjectAdminData } from "@/lib/project-admin-tracker";
 import { GitHubProfileCard } from "@/components/pr-tracker/GitHubProfileCard";
 import { AdminScoringGuide } from "@/components/project-admin/AdminScoringGuide";
 import type { Metadata } from "next";
@@ -58,22 +58,17 @@ export default async function ProjectAdminDashboard({ params }: Props) {
     userRepos.map(async (repoKey) => {
       const [owner, repo] = repoKey.split("/");
       try {
-        const score = await buildAdminScore(owner, repo, user.login);
-        return { repoKey, score, error: null };
+        const data = await buildProjectAdminData(owner, repo);
+        return { repoKey, data, error: null };
       } catch (err) {
-        return { repoKey, score: null, error: err instanceof Error ? err.message : "Error fetching repo stats" };
+        return { repoKey, data: null, error: err instanceof Error ? err.message : "Error fetching repo stats" };
       }
     })
   );
 
-  const totalPoints = repoScores.reduce((sum, item) => sum + (item.score?.total ?? 0), 0);
-  const totalMerged = repoScores.reduce((sum, item) => sum + (item.score?.mergedPRsCount ?? 0), 0);
-  
-  // Count labeled issues
-  const totalLabeled = repoScores.reduce(
-    (sum, item) => sum + (item.score?.labeledIssuesFullCount ?? 0) + (item.score?.labeledIssuesDiffCount ?? 0),
-    0
-  );
+  const totalPoints = repoScores.reduce((sum, item) => sum + (item.data?.totalPoints ?? 0), 0);
+  const totalMerged = repoScores.reduce((sum, item) => sum + (item.data?.totalMerged ?? 0), 0);
+  const totalContributors = repoScores.reduce((sum, item) => sum + (item.data?.uniqueContributors ?? 0), 0);
 
   const fetchedAt = new Date().toLocaleString("en-IN", {
     month: "short",
@@ -84,10 +79,10 @@ export default async function ProjectAdminDashboard({ params }: Props) {
   });
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f5f5f5", fontFamily: "var(--font-sans)" }}>
+    <div style={{ minHeight: "100vh", background: ds.canvasSoft, fontFamily: "var(--font-sans)", color: ds.ink }}>
       {/* Sticky nav */}
       <div style={{
-        background: "rgba(255,255,255,0.9)",
+        background: ds.canvas,
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
         borderBottom: `1px solid ${ds.hairlineCool}`,
@@ -231,7 +226,7 @@ export default async function ProjectAdminDashboard({ params }: Props) {
           <StatCard icon={<Trophy size={16} />} label="Total Admin Points" value={totalPoints} sub="Sum of all repos" color="#4f46e5" bg="rgba(99,102,241,0.06)" />
           <StatCard icon={<BookOpen size={16} />} label="Registered Projects" value={userRepos.length} sub="Matching repos" color="#818cf8" bg="rgba(129,140,248,0.06)" />
           <StatCard icon={<GitMerge size={16} />} label="Merged GSSoC PRs" value={totalMerged} sub="Across all projects" color={ds.primaryDeep} bg="rgba(62,207,142,0.06)" />
-          <StatCard icon={<Tag size={16} />} label="Issues Labeled" value={totalLabeled} sub="Difficulty/Type tagged" color="#f59e0b" bg="rgba(245,158,11,0.06)" />
+          <StatCard icon={<Users size={16} />} label="Contributors" value={totalContributors} sub="Active on your projects" color="#8b5cf6" bg="rgba(139,92,246,0.06)" />
         </div>
 
         {/* Repos Breakdown */}
@@ -249,7 +244,7 @@ export default async function ProjectAdminDashboard({ params }: Props) {
           </div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-            {repoScores.map(({ repoKey, score, error }) => {
+            {repoScores.map(({ repoKey, data, error }) => {
               if (error) {
                 return (
                   <div key={repoKey} style={{ background: ds.canvas, border: `1.5px solid #fee2e2`, borderRadius: ds.rLg, padding: "16px 20px", display: "flex", alignItems: "center", gap: 10 }}>
@@ -261,8 +256,17 @@ export default async function ProjectAdminDashboard({ params }: Props) {
                 );
               }
 
-              if (!score) return null;
+              if (!data) return null;
               const [owner, repo] = repoKey.split("/");
+
+              // Count difficulty levels
+              const counts = { beginner: 0, intermediate: 0, advanced: 0, critical: 0 };
+              data.validPRs.forEach((pr) => {
+                if (pr.difficulty === "level:beginner") counts.beginner++;
+                else if (pr.difficulty === "level:intermediate") counts.intermediate++;
+                else if (pr.difficulty === "level:advanced") counts.advanced++;
+                else if (pr.difficulty === "level:critical") counts.critical++;
+              });
 
               return (
                 <div key={repoKey} style={{
@@ -308,14 +312,13 @@ export default async function ProjectAdminDashboard({ params }: Props) {
                   {/* Repo Breakdown Stats */}
                   <div style={{ padding: "20px 24px" }}>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 16, marginBottom: 20 }}>
-                      <MiniBreakdownCard label="Merged PRs (+15)" count={score.mergedPRsCount} points={score.mergedPRsPoints} />
-                      <MiniBreakdownCard label="Labeled (Full) (+10)" count={score.labeledIssuesFullCount} points={score.labeledIssuesFullPoints} />
-                      <MiniBreakdownCard label="Labeled (Diff) (+5)" count={score.labeledIssuesDiffCount} points={score.labeledIssuesDiffPoints} />
-                      <MiniBreakdownCard label="Opened (Beginner) (+8)" count={score.openedIssuesBeginnerCount} points={score.openedIssuesBeginnerPoints} />
-                      <MiniBreakdownCard label="Opened (Other) (+3)" count={score.openedIssuesOtherCount} points={score.openedIssuesOtherPoints} />
+                      <MiniBreakdownCard label="Beginner PRs" count={counts.beginner} points={counts.beginner * 70} />
+                      <MiniBreakdownCard label="Intermediate PRs" count={counts.intermediate} points={counts.intermediate * 85} />
+                      <MiniBreakdownCard label="Advanced PRs" count={counts.advanced} points={counts.advanced * 105} />
+                      <MiniBreakdownCard label="Critical PRs" count={counts.critical} points={counts.critical * 130} />
                     </div>
 
-                    {/* Boost details & Repo Total */}
+                    {/* Repo Total */}
                     <div style={{
                       display: "flex",
                       justifyContent: "space-between",
@@ -325,33 +328,20 @@ export default async function ProjectAdminDashboard({ params }: Props) {
                       flexWrap: "wrap",
                       gap: 12
                     }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                         <span style={{ fontSize: 12, color: ds.inkMute2 }}>
-                          Issue Resolution Time Boost:
+                          Merged GSSoC PRs: <strong style={{ color: ds.ink }}>{data.totalMerged}</strong>
                         </span>
-                        {score.closedIssuesForBoost < 2 ? (
-                          <span style={{ fontSize: 11, color: ds.inkFaint }}>
-                            Needs ≥ 2 closed issues (Currently {score.closedIssuesForBoost})
-                          </span>
-                        ) : (
-                          <span style={{
-                            fontSize: 11,
-                            fontWeight: 700,
-                            padding: "2px 8px",
-                            borderRadius: ds.rFull,
-                            background: score.resolutionBoostPoints > 0 ? "rgba(62,207,142,0.1)" : "rgba(23,23,23,0.05)",
-                            color: score.resolutionBoostPoints > 0 ? ds.primaryDeep : ds.inkMute
-                          }}>
-                            {score.resolutionBoostPoints > 0 ? `+${score.resolutionBoostPoints} Points` : "No Boost"}{" "}
-                            ({score.avgResolutionDays?.toFixed(1)} days avg)
-                          </span>
-                        )}
+                        <span style={{ width: 1, height: 12, background: ds.hairline }} />
+                        <span style={{ fontSize: 12, color: ds.inkMute2 }}>
+                          Contributors: <strong style={{ color: ds.ink }}>{data.uniqueContributors}</strong> active
+                        </span>
                       </div>
 
                       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                         <span style={{ fontSize: 13, fontWeight: 500, color: ds.inkMute }}>Repo Total:</span>
                         <span style={{ fontSize: 22, fontWeight: 800, color: "#4f46e5", fontFamily: fontMono }}>
-                          {score.total} pts
+                          {data.totalPoints.toLocaleString()} pts
                         </span>
                       </div>
                     </div>
@@ -429,7 +419,7 @@ function ErrorPage({ username, code }: { username: string; code: string }) {
   const isRateLimit = code === "RATE_LIMITED";
   return (
     <div style={{
-      minHeight: "100vh", background: "#f5f5f5",
+      minHeight: "100vh", background: ds.canvasSoft,
       display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
       fontFamily: "var(--font-sans)", padding: 24,
     }}>

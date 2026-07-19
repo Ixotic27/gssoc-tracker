@@ -17,7 +17,7 @@ if (typeof window !== "undefined") {
 export function CSPostHogProvider({ children }: { children: React.ReactNode }) {
   return (
     <PostHogProvider client={posthog}>
-      <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
         {children}
       </ThemeProvider>
     </PostHogProvider>

@@ -1,10 +1,9 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, FolderGit2, Clock, AlertTriangle, Star, RefreshCw, GitFork, ExternalLink, Trophy, GitMerge, Tag, Info } from "lucide-react";
+import { ArrowLeft, FolderGit2, Clock, AlertTriangle, Star, RefreshCw, GitFork, ExternalLink, Trophy, GitMerge, Tag, Info, Users } from "lucide-react";
 import { ds, fontMono } from "@/lib/ds";
 import { buildProjectAdminData } from "@/lib/project-admin-tracker";
-import { buildAdminScore } from "@/lib/admin-scoring";
 import { ProjectPRTable } from "@/components/project-admin/ProjectPRTable";
 import { AdminScoringGuide } from "@/components/project-admin/AdminScoringGuide";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -28,12 +27,10 @@ export default async function ProjectAdminPage({ params }: Props) {
   const owner = username;
 
   let data = null as Awaited<ReturnType<typeof buildProjectAdminData>> | null;
-  let adminScore = null as Awaited<ReturnType<typeof buildAdminScore>> | null;
   let errorCode: string | null = null;
 
   try {
     data = await buildProjectAdminData(owner, repo);
-    adminScore = await buildAdminScore(owner, repo, owner);
   } catch (err) {
     const msg = err instanceof Error ? err.message : "";
     if (msg === "REPO_NOT_FOUND") return notFound();
@@ -41,7 +38,7 @@ export default async function ProjectAdminPage({ params }: Props) {
   }
 
   if (errorCode) return <ErrorPage owner={owner} repo={repo} code={errorCode} />;
-  if (!data || !adminScore) return notFound();
+  if (!data) return notFound();
 
   const fetchedDate = new Date(data.fetchedAt).toLocaleString("en-IN", {
     month: "short", day: "numeric", hour: "2-digit", minute: "2-digit",
@@ -135,7 +132,7 @@ export default async function ProjectAdminPage({ params }: Props) {
               <div style={{ padding: "10px 18px", background: "rgba(99,102,241,0.06)", border: "1.5px solid rgba(99,102,241,0.2)", borderRadius: ds.rLg, textAlign: "center", minWidth: 120, flexShrink: 0 }}>
                 <p style={{ margin: "0 0 1px", fontSize: 10, fontWeight: 700, color: ds.inkMute2, letterSpacing: "0.1em", textTransform: "uppercase" }}>Admin Points</p>
                 <p style={{ margin: 0, fontSize: 28, fontWeight: 800, color: "#4f46e5", fontFamily: fontMono, lineHeight: 1.1, letterSpacing: "-0.02em" }}>
-                  {adminScore.total.toLocaleString()}
+                  {data.totalPoints.toLocaleString()}
                 </p>
                 <p style={{ margin: "3px 0 0", fontSize: 10, color: ds.inkMute2 }}>earned by @{owner}</p>
               </div>
@@ -166,10 +163,10 @@ export default async function ProjectAdminPage({ params }: Props) {
 
         {/* Stats Grid */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 10, marginBottom: 16 }}>
-          <StatCard icon={<Trophy size={14} />} label="Total Points" value={adminScore.total} sub="points earned" accent="#4f46e5" accentBg="rgba(99,102,241,0.07)" />
-          <StatCard icon={<GitMerge size={14} />} label="Merged PRs" value={adminScore.mergedPRsCount} sub="+15 pts each" accent={ds.primaryDeep} accentBg="rgba(62,207,142,0.07)" />
-          <StatCard icon={<Tag size={14} />} label="Labeled Issues" value={adminScore.labeledIssuesFullCount + adminScore.labeledIssuesDiffCount} sub="+10 / +5 pts each" accent="#f59e0b" accentBg="rgba(245,158,11,0.07)" />
-          <StatCard icon={<FolderGit2 size={14} />} label="Opened Issues" value={adminScore.openedIssuesBeginnerCount + adminScore.openedIssuesOtherCount} sub={`by @${owner} (+8 / +3)`} accent="#8b5cf6" accentBg="rgba(139,92,246,0.07)" />
+          <StatCard icon={<Trophy size={14} />} label="Total Points" value={data.totalPoints} sub="points earned" accent="#4f46e5" accentBg="rgba(99,102,241,0.07)" />
+          <StatCard icon={<GitMerge size={14} />} label="Merged PRs" value={data.totalMerged} sub="contributions" accent={ds.primaryDeep} accentBg="rgba(62,207,142,0.07)" />
+          <StatCard icon={<Users size={14} />} label="Contributors" value={data.uniqueContributors} sub="active on repo" accent="#f59e0b" accentBg="rgba(245,158,11,0.07)" />
+          <StatCard icon={<FolderGit2 size={14} />} label="Open Issues" value={data.repo.open_issues_count} sub="help needed" accent="#8b5cf6" accentBg="rgba(139,92,246,0.07)" />
         </div>
 
         {/* Empty state */}
