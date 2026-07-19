@@ -6,7 +6,6 @@ import { ds, fontMono } from "@/lib/ds";
 import { buildProjectAdminData } from "@/lib/project-admin-tracker";
 import { ProjectPRTable } from "@/components/project-admin/ProjectPRTable";
 import { AdminScoringGuide } from "@/components/project-admin/AdminScoringGuide";
-import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const dynamic = "force-dynamic";
 
@@ -88,7 +87,6 @@ export default async function ProjectAdminPage({ params }: Props) {
           <a href="https://github.com/PRODHOSH/gssoc-tracker" target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "5px 12px", borderRadius: ds.rSm, border: "1px solid rgba(202,138,4,0.3)", fontSize: 12, fontWeight: 600, color: "#92400e", textDecoration: "none", background: "rgba(251,191,36,0.07)" }}>
             <Star size={11} /> Star
           </a>
-          <ThemeToggle />
         </div>
       </div>
 
