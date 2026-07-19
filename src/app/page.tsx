@@ -5,8 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, AlertCircle, FolderGit2, Star, User } from "lucide-react";
 import { ds, fontMono } from "@/lib/ds";
 import Image from "next/image";
+import { SubscribeButton } from "@/components/SubscribeModal";
 
-const REPO_URL = "https://github.com/Ixotic27/gssoc-tracker";
+const REPO_URL = "https://github.com/PRODHOSH/gssoc-tracker";
 
 type Mode = "repo" | "username";
 
@@ -200,24 +201,14 @@ export default function Home() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "center" }}>
           <a
-            href="https://github.com/Ixotic27"
+            href="https://github.com/PRODHOSH"
             target="_blank" rel="noopener noreferrer"
             style={{ display: "flex", alignItems: "center", gap: 8, textDecoration: "none", padding: "6px 12px", borderRadius: ds.rFull, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)" }}
           >
-            <Image src="https://avatars.githubusercontent.com/Ixotic27" alt="Ixotic27" width={22} height={22} unoptimized style={{ borderRadius: "50%", display: "block" }} />
+            <Image src="https://avatars.githubusercontent.com/PRODHOSH" alt="PRODHOSH" width={22} height={22} unoptimized style={{ borderRadius: "50%", display: "block" }} />
             <span style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>
-              Built by <span style={{ color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>@Ixotic27</span>
+              Built by <span style={{ color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>@PRODHOSH</span>
             </span>
-          </a>
-
-          <a
-            href="https://gssoc-tracker.vercel.app"
-            target="_blank" rel="noopener noreferrer"
-            style={{ display: "flex", alignItems: "center", gap: 6, textDecoration: "none", padding: "6px 14px", borderRadius: ds.rFull, border: "1px solid rgba(62,207,142,0.2)", background: "rgba(62,207,142,0.04)", fontSize: 12, fontWeight: 500, color: "rgba(255,255,255,0.45)", transition: "all 0.15s" }}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(62,207,142,0.5)"; e.currentTarget.style.color = "#3ecf8e"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(62,207,142,0.2)"; e.currentTarget.style.color = "rgba(255,255,255,0.45)"; }}
-          >
-            Contributor Tracker →
           </a>
 
           <a
@@ -228,10 +219,13 @@ export default function Home() {
           >
             <Star size={13} /> Star on GitHub
           </a>
+
+          <SubscribeButton />
         </div>
 
         <p style={{ margin: 0, fontSize: 11, color: "rgba(255,255,255,0.2)", textAlign: "center" }}>
-          Not affiliated with GirlScript Summer of Code or GirlScript Foundation
+          Not affiliated with GirlScript Summer of Code or GirlScript Foundation ·{" "}
+          <a href="/terms" style={{ color: "rgba(255,255,255,0.35)", textDecoration: "underline" }}>Terms &amp; Privacy</a>
         </p>
       </motion.div>
 
